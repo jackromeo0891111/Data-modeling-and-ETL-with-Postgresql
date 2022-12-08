@@ -1,5 +1,5 @@
 # Data modeling and ETL
-This project serves the purpose for an imaginary startup company "Sparkify" to fetch user data and transfer to postgresql data base for future analysis
+This project serves the purpose for an imaginary startup company "Sparkify" to fetch user data and transfer to postgresql database for future analysis
 
 ### 1. How to run the Python scripts?
 Run "create_tables.py" firstly then run "etl.py"  
