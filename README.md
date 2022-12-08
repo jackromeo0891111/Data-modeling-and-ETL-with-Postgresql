@@ -1,4 +1,4 @@
-# Udacity data engineer nanodegree project - Data modeling and ETL
+# Data modeling and ETL
 
 ### 1. Discuss the purpose of this database in the context of the startup, Sparkify, and their analytical goals.
 This project serves the purpose for an imaginary startup company "Sparkify" to fetch user data and transfer to postgresql data base for future analysis
