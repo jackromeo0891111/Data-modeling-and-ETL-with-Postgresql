@@ -6,34 +6,24 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
-    """
-    - Read songs/artists data .json files
-    - Parse data with Pandas then insert to songs/artists table
-    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
     # insert song record
     song_data = df[["song_id", "title", "artist_id", "year", "duration"]].values[0].tolist()
     cur.execute(song_table_insert, song_data)
-
+    
     # insert artist record
-    artist_data = df[["artist_id", "artist_name", "artist_location", "artist_latitude", "artist_longitude"]].values[
-        0].tolist()
+    artist_data = df[["artist_id", "artist_name", "artist_location", "artist_latitude", "artist_longitude"]].values[0].tolist()
     cur.execute(artist_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
-    """
-    - Read log data .json files
-    - Parse data with Pandas then insert to time/users/songplays table
-    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
     # filter by NextSong action
     df = df[df['page'] == "NextSong"]
-
     # convert timestamp column to datetime
     t = pd.to_datetime(df['ts'], unit="ms")
 
@@ -53,7 +43,7 @@ def process_log_file(cur, filepath):
         cur.execute(user_table_insert, row)
 
     # insert songplay records
-    df.ts = pd.to_datetime(df.ts, unit='ms')
+    df.ts= pd.to_datetime(df.ts, unit='ms')
     for index, row in df.iterrows():
 
         # get songid and artistid from song and artist tables
@@ -61,26 +51,20 @@ def process_log_file(cur, filepath):
         results = cur.fetchone()
 
         if results:
-            songid, artistid = results
+            song_id, artist_id = results
         else:
-            songid, artistid = None, None
-
+            song_id, artist_id = None, None
         # insert songplay record
-        songplay_data = (
-        index, row.ts, row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
+        songplay_data = (index, row.ts, row.userId, row.level, song_id, artist_id, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
-    """
-    - iterate all .json files in data path
-    - trigger 'process_log_file' and 'process_song_file' function
-    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
-        files = glob.glob(os.path.join(root, '*.json'))
-        for f in files:
+        files = glob.glob(os.path.join(root,'*.json'))
+        for f in files :
             all_files.append(os.path.abspath(f))
 
     # get total number of files found
