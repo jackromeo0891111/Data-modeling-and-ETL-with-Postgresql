@@ -10,8 +10,12 @@ Serves as an internal library for SQL querries to create/insert/select from tabl
 Serves as the main script to create fact and dimension tables in postgresql database  
 **3. etl.py**  
 Serves as the main ETL script to convert .json files in /data to postgresql database  
-### 3. Database schema design and ETL pipeline.
-![database schema](https://user-images.githubusercontent.com/88352138/206338270-96bdc149-56ae-469b-bb7a-ae430e1bada9.JPG)
+### 3. Database schema design and ETL pipeline
+#### Database Schema  
+![database schema](https://user-images.githubusercontent.com/88352138/206338270-96bdc149-56ae-469b-bb7a-ae430e1bada9.JPG)  
+#### ETL pipeline
+![ETL pipeline](https://user-images.githubusercontent.com/88352138/206355922-da802f16-0dcf-4de6-8dd4-27a688a7f78d.JPG)
+
 ### 4. example queries and results  
 ```sql
 SELECT * FROM songplays LIMIT 5;
