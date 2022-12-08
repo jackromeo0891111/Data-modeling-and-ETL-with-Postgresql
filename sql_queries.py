@@ -10,7 +10,7 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 songplay_table_create = ("""
 CREATE TABLE songplays (
-songplay_id INT PRIMARY KEY,
+songplay_id SERIAL PRIMARY KEY,
 start_time TIMESTAMP NOT NULL,
 user_id INT NOT NULL,
 level VARCHAR,
@@ -50,7 +50,7 @@ longitude DOUBLE PRECISION)
 
 time_table_create = ("""
 CREATE TABLE time (
-start_time TIME,
+start_time TIME PRIMARY KEY,
 hour INT,
 day INT,
 week INT,
@@ -120,12 +120,17 @@ month,
 year,
 weekday)
 VALUES (%s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING
 """)
 
 # FIND SONGS
 
 song_select = ("""
-SELECT songs.song_id, artists.artist_id FROM songs JOIN artists ON songs.artist_id=artists.artist_id
+SELECT songs.song_id, artists.artist_id 
+FROM songs 
+JOIN artists 
+ON songs.artist_id=artists.artist_id 
+WHERE songs.title = %s AND artists.name = %s AND songs.duration = %s
 """)
 
 # QUERY LISTS
