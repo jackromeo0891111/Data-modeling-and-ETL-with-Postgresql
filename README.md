@@ -14,6 +14,6 @@ Serves as the main script to create fact and dimension tables in postgresql data
 Serves as the main ETL script to convert .json files in /data to postgresql database
 ### 4. State and justify your database schema design and ETL pipeline.
 #### Database schema
-
+![database schema](https://user-images.githubusercontent.com/88352138/206338270-96bdc149-56ae-469b-bb7a-ae430e1bada9.JPG)
 #### ETL pipeline
 ### 5. [Optional] Provide example queries and results for song play analysis.
