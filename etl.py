@@ -6,6 +6,10 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    - load song .json files and process
+    - Insert into song table and artist table 
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -19,6 +23,10 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    - load log .json files and process
+    - Insert into time table, user table and songplay table 
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -50,16 +58,20 @@ def process_log_file(cur, filepath):
         cur.execute(song_select, (row.song, row.artist, row.length))
         results = cur.fetchone()
 
+        #insert songplay record only if songid and artistid not null
         if results:
-            song_id, artist_id = results
+            songid, artistid = results
+            songplay_data = (row.ts, row.userId, row.level, songid, artistid, row.sessionId, \
+                             row.location, row.userAgent)
+            cur.execute(songplay_table_insert, songplay_data)
         else:
-            song_id, artist_id = None, None
-        # insert songplay record
-        songplay_data = (index, row.ts, row.userId, row.level, song_id, artist_id, row.sessionId, row.location, row.userAgent)
-        cur.execute(songplay_table_insert, songplay_data)
-
+            songid, artistid = None, None
 
 def process_data(cur, conn, filepath, func):
+    """
+    - iterate all files under /data path
+    - execute "process_song_file" and "process_log_file" functions
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
